@@ -1,79 +1,81 @@
 # DIY4NAS
+
+[toc]
 <!-- TOC -->
 
-- [1.1. License & Copyright](#11-license--copyright)
-- [1.2. linux](#12-linux)
-    - [1.2.1. 挂载异常](#121-%E6%8C%82%E8%BD%BD%E5%BC%82%E5%B8%B8)
-    - [1.2.2. tmux](#122-tmux)
-    - [1.2.3. 使用远程桌面](#123-%E4%BD%BF%E7%94%A8%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2)
-    - [1.2.4. Fail2Ban](#124-fail2ban)
-- [1.3. 安全](#13-%E5%AE%89%E5%85%A8)
-- [1.4. NAS](#14-nas)
-    - [1.4.1. 宝塔面板](#141-%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF)
-    - [1.4.2. server_box_monitor](#142-server_box_monitor)
-    - [1.4.3. omv/openmediavault](#143-omvopenmediavault)
-- [1.5. 内网穿透](#15-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F)
-    - [1.5.1. ip](#151-ip)
-        - [1.5.1.1. s-nail](#1511-s-nail)
-    - [1.5.2. ipv4 端口转发](#152-ipv4-%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91)
-    - [1.5.3. 花生壳/oray](#153-%E8%8A%B1%E7%94%9F%E5%A3%B3oray)
-    - [1.5.4. WireGuard](#154-wireguard)
-        - [1.5.4.1. 全互联模式（full mesh）](#1541-%E5%85%A8%E4%BA%92%E8%81%94%E6%A8%A1%E5%BC%8Ffull-mesh)
-        - [1.5.4.2. more](#1542-more)
-    - [1.5.5. NetBird](#155-netbird)
-    - [1.5.6. Netmaker](#156-netmaker)
-    - [1.5.7. ddns](#157-ddns)
-        - [1.5.7.1. ddns-go](#1571-ddns-go)
-- [1.6. docker](#16-docker)
-    - [1.6.1. Docker基础入门：镜像、容器导入导出与私有仓库搭建](#161-docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E9%95%9C%E5%83%8F%E5%AE%B9%E5%99%A8%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E4%B8%8E%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%90%AD%E5%BB%BA)
-    - [1.6.2. 安装](#162-%E5%AE%89%E8%A3%85)
-    - [1.6.3. Portainer 安装与使用](#163-portainer-%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8)
-        - [1.6.3.1. Portainer 搭建与使用（docker）](#1631-portainer-%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8docker)
-        - [1.6.3.2. Docker可视化工具——Portainer全解](#1632-docker%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7portainer%E5%85%A8%E8%A7%A3)
-        - [1.6.3.3. 通过命令安装 Portainer](#1633-%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85-portainer)
-    - [1.6.4. compose](#164-compose)
-        - [1.6.4.1. 菜鸟驿站](#1641-%E8%8F%9C%E9%B8%9F%E9%A9%BF%E7%AB%99)
-        - [1.6.4.2. 全网最详细的Docker-Compose详细教程](#1642-%E5%85%A8%E7%BD%91%E6%9C%80%E8%AF%A6%E7%BB%86%E7%9A%84docker-compose%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B)
-        - [1.6.4.3. Docker-Compose 基础与实战，看这一篇就够啦](#1643-docker-compose-%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E7%9C%8B%E8%BF%99%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E5%95%A6)
-        - [1.6.4.4. docker-compose教程（安装，使用, 快速入门）](#1644-docker-compose%E6%95%99%E7%A8%8B%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8)
-    - [1.6.5. 本地系统（Linux）打包成docker镜像](#165-%E6%9C%AC%E5%9C%B0%E7%B3%BB%E7%BB%9Flinux%E6%89%93%E5%8C%85%E6%88%90docker%E9%95%9C%E5%83%8F)
-- [1.7. 存储器/文件系统](#17-%E5%AD%98%E5%82%A8%E5%99%A8%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F)
-    - [1.7.1. ntfs](#171-ntfs)
-    - [1.7.2. SMB](#172-smb)
-    - [1.7.3. NFS](#173-nfs)
-    - [1.7.4. FTP/SFTP/TFTP](#174-ftpsftptftp)
-    - [1.7.5. filebrowser：使用Golang开发的文件管理器，支持WEB管理文件和文件分享](#175-filebrowser%E4%BD%BF%E7%94%A8golang%E5%BC%80%E5%8F%91%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E6%94%AF%E6%8C%81web%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%88%86%E4%BA%AB)
-- [1.8. 内网应用仪表盘](#18-%E5%86%85%E7%BD%91%E5%BA%94%E7%94%A8%E4%BB%AA%E8%A1%A8%E7%9B%98)
-    - [1.8.1. Flare](#181-flare)
-    - [1.8.2. Heimdall](#182-heimdall)
-        - [1.8.2.1. 安装方式](#1821-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F)
-    - [1.8.3. OneNav](#183-onenav)
-        - [1.8.3.1. 常规安装](#1831-%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85)
-        - [1.8.3.2. 宝塔面板安装](#1832-%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF%E5%AE%89%E8%A3%85)
-        - [1.8.3.3. Docker安装](#1833-docker%E5%AE%89%E8%A3%85)
-        - [1.8.3.4. docker-compose安装](#1834-docker-compose%E5%AE%89%E8%A3%85)
-        - [1.8.3.5. 安全设置](#1835-%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE)
-        - [1.8.3.6. Nginx反向代理](#1836-nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86)
-- [1.9. 网盘](#19-%E7%BD%91%E7%9B%98)
-    - [1.9.1. alist](#191-alist)
-        - [1.9.1.1. AList 白嫖网盘空间神器 - 免费开源挂载百度/阿里/OneDrive等云盘到本地工具](#1911-alist-%E7%99%BD%E5%AB%96%E7%BD%91%E7%9B%98%E7%A9%BA%E9%97%B4%E7%A5%9E%E5%99%A8---%E5%85%8D%E8%B4%B9%E5%BC%80%E6%BA%90%E6%8C%82%E8%BD%BD%E7%99%BE%E5%BA%A6%E9%98%BF%E9%87%8Conedrive%E7%AD%89%E4%BA%91%E7%9B%98%E5%88%B0%E6%9C%AC%E5%9C%B0%E5%B7%A5%E5%85%B7)
-    - [1.9.2. 百度网盘](#192-%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98)
-- [1.10. 远程下载](#110-%E8%BF%9C%E7%A8%8B%E4%B8%8B%E8%BD%BD)
-    - [1.10.1. xunlei](#1101-xunlei)
-        - [1.10.1.1. 在Docker环境中实现NAS版迅雷安装指南](#11011-%E5%9C%A8docker%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%AE%9E%E7%8E%B0nas%E7%89%88%E8%BF%85%E9%9B%B7%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97)
-    - [1.10.2. Aria2 一键安装管理脚本 增强版](#1102-aria2-%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E7%AE%A1%E7%90%86%E8%84%9A%E6%9C%AC-%E5%A2%9E%E5%BC%BA%E7%89%88)
-    - [1.10.3. transmission](#1103-transmission)
-    - [1.10.4. qbitttorrent](#1104-qbitttorrent)
-    - [1.10.5. qbittorrent-nox](#1105-qbittorrent-nox)
-- [1.11. 播放服务](#111-%E6%92%AD%E6%94%BE%E6%9C%8D%E5%8A%A1)
-    - [1.11.1. jellyfin](#1111-jellyfin)
-- [1.12. 同步](#112-%E5%90%8C%E6%AD%A5)
-    - [1.12.1. urbackup](#1121-urbackup)
-- [1.13. 开发环境](#113-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
-    - [1.13.1. 版本控制](#1131-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6)
-        - [1.13.1.1. gitea](#11311-gitea)
-    - [1.13.2. gcc](#1132-gcc)
-    - [1.13.3. 文字转语音服务](#1133-%E6%96%87%E5%AD%97%E8%BD%AC%E8%AF%AD%E9%9F%B3%E6%9C%8D%E5%8A%A1)
+- [License & Copyright](#license--copyright)
+- [linux](#linux)
+    - [挂载异常](#%E6%8C%82%E8%BD%BD%E5%BC%82%E5%B8%B8)
+    - [tmux](#tmux)
+    - [使用远程桌面](#%E4%BD%BF%E7%94%A8%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2)
+    - [Fail2Ban](#fail2ban)
+- [安全](#%E5%AE%89%E5%85%A8)
+- [NAS](#nas)
+    - [宝塔面板](#%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF)
+    - [server_box_monitor](#server_box_monitor)
+    - [omv/openmediavault](#omvopenmediavault)
+- [内网穿透](#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F)
+    - [ip](#ip)
+        - [s-nail](#s-nail)
+    - [ipv4 端口转发](#ipv4-%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91)
+    - [花生壳/oray](#%E8%8A%B1%E7%94%9F%E5%A3%B3oray)
+    - [WireGuard](#wireguard)
+        - [全互联模式（full mesh）](#%E5%85%A8%E4%BA%92%E8%81%94%E6%A8%A1%E5%BC%8Ffull-mesh)
+        - [more](#more)
+    - [NetBird](#netbird)
+    - [Netmaker](#netmaker)
+    - [ddns](#ddns)
+        - [ddns-go](#ddns-go)
+- [docker](#docker)
+    - [Docker基础入门：镜像、容器导入导出与私有仓库搭建](#docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E9%95%9C%E5%83%8F%E5%AE%B9%E5%99%A8%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E4%B8%8E%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%90%AD%E5%BB%BA)
+    - [安装](#%E5%AE%89%E8%A3%85)
+    - [Portainer 安装与使用](#portainer-%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8)
+        - [Portainer 搭建与使用（docker）](#portainer-%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8docker)
+        - [Docker可视化工具——Portainer全解](#docker%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7portainer%E5%85%A8%E8%A7%A3)
+        - [通过命令安装 Portainer](#%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85-portainer)
+    - [compose](#compose)
+        - [菜鸟驿站](#%E8%8F%9C%E9%B8%9F%E9%A9%BF%E7%AB%99)
+        - [全网最详细的Docker-Compose详细教程](#%E5%85%A8%E7%BD%91%E6%9C%80%E8%AF%A6%E7%BB%86%E7%9A%84docker-compose%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B)
+        - [Docker-Compose 基础与实战，看这一篇就够啦](#docker-compose-%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E6%88%98%E7%9C%8B%E8%BF%99%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E5%95%A6)
+        - [docker-compose教程（安装，使用, 快速入门）](#docker-compose%E6%95%99%E7%A8%8B%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8)
+    - [本地系统（Linux）打包成docker镜像](#%E6%9C%AC%E5%9C%B0%E7%B3%BB%E7%BB%9Flinux%E6%89%93%E5%8C%85%E6%88%90docker%E9%95%9C%E5%83%8F)
+- [存储器/文件系统](#%E5%AD%98%E5%82%A8%E5%99%A8%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F)
+    - [ntfs](#ntfs)
+    - [SMB](#smb)
+    - [NFS](#nfs)
+    - [FTP/SFTP/TFTP](#ftpsftptftp)
+    - [filebrowser：使用Golang开发的文件管理器，支持WEB管理文件和文件分享](#filebrowser%E4%BD%BF%E7%94%A8golang%E5%BC%80%E5%8F%91%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E6%94%AF%E6%8C%81web%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%88%86%E4%BA%AB)
+- [内网应用仪表盘](#%E5%86%85%E7%BD%91%E5%BA%94%E7%94%A8%E4%BB%AA%E8%A1%A8%E7%9B%98)
+    - [Flare](#flare)
+    - [Heimdall](#heimdall)
+        - [安装方式](#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F)
+    - [OneNav](#onenav)
+        - [常规安装](#%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85)
+        - [宝塔面板安装](#%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF%E5%AE%89%E8%A3%85)
+        - [Docker安装](#docker%E5%AE%89%E8%A3%85)
+        - [docker-compose安装](#docker-compose%E5%AE%89%E8%A3%85)
+        - [安全设置](#%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE)
+        - [Nginx反向代理](#nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86)
+- [网盘](#%E7%BD%91%E7%9B%98)
+    - [alist](#alist)
+        - [AList 白嫖网盘空间神器 - 免费开源挂载百度/阿里/OneDrive等云盘到本地工具](#alist-%E7%99%BD%E5%AB%96%E7%BD%91%E7%9B%98%E7%A9%BA%E9%97%B4%E7%A5%9E%E5%99%A8---%E5%85%8D%E8%B4%B9%E5%BC%80%E6%BA%90%E6%8C%82%E8%BD%BD%E7%99%BE%E5%BA%A6%E9%98%BF%E9%87%8Conedrive%E7%AD%89%E4%BA%91%E7%9B%98%E5%88%B0%E6%9C%AC%E5%9C%B0%E5%B7%A5%E5%85%B7)
+    - [百度网盘](#%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98)
+- [远程下载](#%E8%BF%9C%E7%A8%8B%E4%B8%8B%E8%BD%BD)
+    - [xunlei](#xunlei)
+        - [在Docker环境中实现NAS版迅雷安装指南](#%E5%9C%A8docker%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%AE%9E%E7%8E%B0nas%E7%89%88%E8%BF%85%E9%9B%B7%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97)
+    - [Aria2 一键安装管理脚本 增强版](#aria2-%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E7%AE%A1%E7%90%86%E8%84%9A%E6%9C%AC-%E5%A2%9E%E5%BC%BA%E7%89%88)
+    - [transmission](#transmission)
+    - [qbitttorrent](#qbitttorrent)
+    - [qbittorrent-nox](#qbittorrent-nox)
+- [播放服务](#%E6%92%AD%E6%94%BE%E6%9C%8D%E5%8A%A1)
+    - [jellyfin](#jellyfin)
+- [同步](#%E5%90%8C%E6%AD%A5)
+    - [urbackup](#urbackup)
+- [开发环境](#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
+    - [版本控制](#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6)
+        - [gitea](#gitea)
+    - [gcc](#gcc)
+    - [文字转语音服务](#%E6%96%87%E5%AD%97%E8%BD%AC%E8%AF%AD%E9%9F%B3%E6%9C%8D%E5%8A%A1)
 
 <!-- /TOC -->
 
@@ -218,6 +220,7 @@ findtime = 8467200 #; 14 days
 bantime = 604800 # ; 1 week
 maxretry = 3  # 将最大重试次数设置为3, 超过就 ban 它的 ip
 ```
+
 ## 安全
 
 ```bash
@@ -247,6 +250,7 @@ systemctl restart sshd
 ```sh
 sudo bt
 ```
+
 ### server_box_monitor
 
 - [server_box_monitor](https://github.com/lollipopkit/server_box_monitor): ServerBox on server end.
@@ -311,7 +315,7 @@ openmediavault-kvm安装完毕后，服务里面会多出一个KVM的选项，�
 
 ## 内网穿透
 
-### **ip**
+### ip
 
 ```sh
 # email
@@ -331,7 +335,7 @@ set smtp-auth-password="..."  #邮箱授权码
 set smtp-auth=login
 ```
 
-### *ipv4 端口转发*
+### ipv4 端口转发
 
 ### 花生壳/oray
 
@@ -397,7 +401,7 @@ Reference:
 
 - [WireGuard 全互联模式终极指南（上）！](https://cloud.tencent.com/developer/article/1893909)
 
-### **[NetBird](https://netbird.io/)**
+### [NetBird](https://netbird.io/)
 
 <https://github.com/netbirdio/netbird>:Connect your devices into a single secure private WireGuard®-based mesh network with SSO/MFA and simple access controls.
 
@@ -529,7 +533,8 @@ nano /etc/docker/daemon.json
 systemctl restart docker.service
 ```
 
-### [Portainer 安装与使用](https://zhuanlan.zhihu.com/p/383491674)
+### Portainer 安装与使用
+https://zhuanlan.zhihu.com/p/383491674
 
 Portainer 是一个用于管理容器化应用程序的开源工具。它在数据中心和边缘与Kubernetes、Docker、Docker Swarm、Azure ACI一起使用。Portainer 消除了与编排器相关的复杂性，因此任何人都可以管理容器。它可用于部署和管理应用程序、观察容器的行为并提供广泛部署容器所需的安全性和治理。Portainer CE（开源）受到全球超过 500,000 名用户的信赖。Portainer Business建立在开源基础之上，使组织能够大规模运行容器化应用程序，而无需雇用新人员或重新培训现有团队。
 
@@ -1031,9 +1036,9 @@ docker run --name=heimdall -d -v /home/heimdall:/config -e PGID=1000 -e PUID=100
 
 然后就能直接在内网通过 ip:8443 访问了。当然也可以放在公网上使用，毕竟支持多用户，
 
-### [OneNav](https://www.onenav.top/)
+### OneNav
 
-OneNav是一款开源免费的书签（导航）管理程序，由xiaoz使用使用PHP + SQLite 3开发，界面简洁，安装简单，使用方便。OneNav可帮助你你将浏览器书签集中式管理，解决跨设备、跨平台、跨浏览器之间同步和访问困难问题，做到一处部署，随处访问。
+[OneNav](https://www.onenav.top/)是一款开源免费的书签（导航）管理程序，由xiaoz使用使用PHP + SQLite 3开发，界面简洁，安装简单，使用方便。OneNav可帮助你你将浏览器书签集中式管理，解决跨设备、跨平台、跨浏览器之间同步和访问困难问题，做到一处部署，随处访问。
 
 <https://doc.xiaoz.org/books/onenav/page/a1d0c>
 
@@ -1229,30 +1234,31 @@ docker exec -it alist ./alist admin set 你的密码
 ```
 
 待 Alist 服务成功启动之后，我们就能通过浏览器访问它了：
-
+```
 本机访问：<http://127.0.0.1:5244>
 局域网访问：<http://局域网IP:5244>
 公网访问：<http://服务器公网IP:5244> (如部署在云服务器上可直接互联网访问)，如果是家庭宽带无公网 IP 的，那么需要额外配置「内网穿透」才可以实现。
 将网盘空间挂载到本地 (建立 WebDAV)
-
+```
 Alist 作为一个网盘文件管理器，它后端支持挂载的存储服务非常非常多！包括但不限于本地硬盘存储、SMB 共享、FTP / SFTP、WebDAV、各大云服务的对象存储等，同时还可以支持各种网盘：百度网盘、阿里云盘、OneDrive (SharePoint)、迅雷云盘、天翼云盘、移动云盘、腾讯微云、PikPak、夸克网盘、Dropbox、Seafile 等等，非常丰富。
 
 在 Alist 的管理界面中的「存储」页面，我们可以随意添加它所支持的网盘。具体每一个网盘的添方法都有所区别，比如需要扫码登录账号获取 token 或 cookie 等，具体就需要大家「参考官网的文档」来使用了
 
 AList 的 WebDAV 服务：
 AList 运行后就会开启 WebDAV 服务，供其他程序连接，下面是其连接信息，大家可以参考：
-
+```
 URL <http://主机IP地址:端口号/dav/>
 路径 /dav
 协议 http
 端口号 与网页端一致
 WebDAV用户名 与网页端用户名一致
 WebDAV密码 与网页端密码一致
-
+```
 将AList 变成本地硬盘盘符
 比如有了这些信息，你就可以使用 RaiDrive 将 Alist 的 WebDAV 挂载成本地硬盘了。
 
 AList 功能特性：
+```
 部署方便，开箱即用；黑暗模式、国际化多语言支持
 文件预览（PDF、markdown、代码、纯文本等...）；支持 README.md 预览渲染
 画廊模式下的图像预览
@@ -1265,7 +1271,7 @@ Docker 部署、Cloudflare workers 中转
 文件/文件夹打包下载
 网页上传(可以允许访客上传)，删除，新建文件夹，重命名，移动，复制
 离线下载；跨存储复制文件；单线程下载/串流的多线程下载加速
-
+```
 AList 不仅是一款开源实用的自建网盘程序，通过它你还可以自由添加任意多的网盘作为背后存储，从而实现“多网盘聚合管理”！同时还能将网盘空间转换成 WebDAV 服务“据为己用”。
 
 无论是作为网络影视资源库，或是文档备份的空间，它都能让你更好地利用网盘的容量，节省本地磁盘空间。从而也能省下一大笔购买 NAS 、硬盘的开支。不得不说，AList 绝对是一个非常实用的开源项目，如果你有一点动手能力，绝对值得部署一个。
