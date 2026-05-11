@@ -2,12 +2,15 @@
 
 1. [License \& Copyright](#license--copyright)
 2. [linux](#linux)
-   1. [挂载异常](#挂载异常)
-   2. [tmux](#tmux)
-   3. [使用远程桌面](#使用远程桌面)
-   4. [Fail2Ban](#fail2ban)
+   1. [任务](#任务)
+   2. [挂载异常](#挂载异常)
+   3. [tmux](#tmux)
+   4. [使用远程桌面](#使用远程桌面)
+   5. [Fail2Ban](#fail2ban)
 3. [安全](#安全)
-4. [NAS](#nas)
+   1. [仅允许局域网 SSH 登录](#仅允许局域网-ssh-登录)
+   2. [SMB 服务仅允许局域网访问](#smb-服务仅允许局域网访问)
+4. [管理面板](#管理面板)
    1. [宝塔面板](#宝塔面板)
    2. [server\_box\_monitor](#server_box_monitor)
    3. [omv/openmediavault](#omvopenmediavault)
@@ -18,13 +21,12 @@
    3. [花生壳/oray](#花生壳oray)
    4. [WireGuard](#wireguard)
       1. [全互联模式（full mesh）](#全互联模式full-mesh)
-      2. [more](#more)
    5. [NetBird](#netbird)
    6. [Netmaker](#netmaker)
    7. [ddns](#ddns)
       1. [ddns-go](#ddns-go)
 6. [docker](#docker)
-   1. [Docker基础入门：镜像、容器导入导出与私有仓库搭建](#docker基础入门镜像容器导入导出与私有仓库搭建)
+   1. [Docker基础入门](#docker基础入门)
    2. [安装](#安装)
    3. [Portainer 安装与使用](#portainer-安装与使用)
       1. [Portainer 搭建与使用（docker）](#portainer-搭建与使用docker)
@@ -41,7 +43,7 @@
    2. [SMB](#smb)
    3. [NFS](#nfs)
    4. [FTP/SFTP/TFTP](#ftpsftptftp)
-   5. [filebrowser：使用Golang开发的文件管理器，支持WEB管理文件和文件分享](#filebrowser使用golang开发的文件管理器支持web管理文件和文件分享)
+   5. [filebrowser](#filebrowser)
 8. [内网应用仪表盘](#内网应用仪表盘)
    1. [Flare](#flare)
    2. [Heimdall](#heimdall)
@@ -55,17 +57,22 @@
       6. [Nginx反向代理](#nginx反向代理)
 9. [网盘](#网盘)
    1. [alist](#alist)
-      1. [AList 白嫖网盘空间神器 - 免费开源挂载百度/阿里/OneDrive等云盘到本地工具](#alist-白嫖网盘空间神器---免费开源挂载百度阿里onedrive等云盘到本地工具)
    2. [百度网盘](#百度网盘)
 10. [远程下载](#远程下载)
     1. [xunlei](#xunlei)
-       1. [在Docker环境中实现NAS版迅雷安装指南](#在docker环境中实现nas版迅雷安装指南)
+       1. [命令行/远程下载（无图形界面）](#命令行远程下载无图形界面)
+          1. [安装使用迅雷Xware](#安装使用迅雷xware)
+       2. [在Docker环境中实现NAS版迅雷安装指南](#在docker环境中实现nas版迅雷安装指南)
     2. [Aria2 一键安装管理脚本 增强版](#aria2-一键安装管理脚本-增强版)
+       1. [挂载 SMB 共享为本地目录](#挂载-smb-共享为本地目录)
     3. [transmission](#transmission)
+       1. [在 Transmission 服务器挂载 SMB](#在-transmission-服务器挂载-smb)
+       2. [配置 Transmission](#配置-transmission)
     4. [qbitttorrent](#qbitttorrent)
     5. [qbittorrent-nox](#qbittorrent-nox)
 11. [播放服务](#播放服务)
     1. [jellyfin](#jellyfin)
+    2. [VidHub](#vidhub)
 12. [同步](#同步)
     1. [urbackup](#urbackup)
 13. [开发环境](#开发环境)
@@ -74,15 +81,17 @@
     2. [gcc](#gcc)
     3. [文字转语音服务](#文字转语音服务)
 
-
 ## License & Copyright
 
-[![GitHub license](https://badgen.net/github/license/yaoqs/NAS)](https://github.com/yaoqs/NAS/blob/main/LICENSE) [![GitHub license](https://img.shields.io/github/license/yaoqs/NAS.svg)](https://github.com/yaoqs/NAS/blob/main/LICENSE)
-
-- 版权声明：Copyright © 2021-2025 要庆生. All rights reserved. 未经本人同意请勿转载。经本人同意后转载时请注明出处。
-- 来源：网络及个人搜集及整理，瓜不保熟
-- 知识共享许可协议 版权声明：署名，允许他人基于本文进行创作，且必须基于与原先许可协议相同的许可协议分发本文([Creative Commons](http://creativecommons.org/licenses/by-sa/4.0/ ))
-- 业余时间所作，难免有不足及错漏之处，敬请包涵指正，可通过github仓库在线留言或Email <a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=m_L69OroxPj1qqKjrdvq6rX49PY" style="text-decoration:none;"><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_01.png"/></a>告知；如需补充其他相关信息，亦可邮件通知或github仓库在线留言；同时欢迎各位热心人士star、fork或共同参与维护仓库
+- **作者**：要庆生（Copyright © 2021-2026）
+- **代码许可**：[![GitHub license](https://badgen.net/github/license/yaoqs/NAS)](https://github.com/yaoqs/NAS/blob/main/LICENSE) [![GitHub license](https://img.shields.io/github/license/yaoqs/NAS.svg)](https://github.com/yaoqs/NAS/blob/main/LICENSE)
+- **内容许可**：[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
+- 🐛 提交问题：[GitHub Issues](https://github.com/yaoqs/NAS/issues)
+- 🔄 贡献内容：[Pull Requests](https://github.com/yaoqs/NAS/pulls)
+- 📧 邮件反馈：<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=m_L69OroxPj1qqKjrdvq6rX49PY" style="text-decoration:none;"><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_01.png"/></a>
+- ⭐**如果这个项目对您有帮助，请给个⭐Star支持一下！**
+- 🍴[fork](https://github.com/yaoqs/NAS/fork)
+- 免责声明：此项目仅供学习交流使用，严禁用于商业用途及其他非法目的，请在24小时之内删除！如有侵权，请联系删除。
 
 ## linux
 
@@ -95,7 +104,6 @@ getconf LONG_BIT//查看long的位数，可以直接反映出虚拟机位数
 neofetch //查看系统信息
 ```
 
-- 查看用户信息
 - hostname
 - passwd
 - w
@@ -131,15 +139,6 @@ df
 ```
 
 ```sh
-# 查询本机外网IPv4地址
-curl 4.ipw.cn
-
-# 查询本机外网IPv6地址
-curl 6.ipw.cn
-
-# 测试网络是IPv4还是IPv6访问优先(访问IPv4/IPv6双栈站点，如果返回IPv6地址，则IPv6访问优先)
-curl test.ipw.cn
-
 ifconfig
 
 iwinfo
@@ -149,6 +148,132 @@ iwinfo
 # email
 date | s-nail -s data xxx@xxx.com
 ```
+
+### 任务
+
+- cron
+
+```sh
+#查看当前用户的 cron 任务
+crontab -l
+#编辑当前用户的 cron 任务
+crontab -e
+#删除当前用户的 cron 任务
+crontab -r
+#添加一个新的 cron 任务
+# 任务格式说明：
+# *  *  *  *  * user-name command-to-be-executed
+# │  │  │  │  │    │            │
+# │  │  │  │  │    │            └─ 要执行的命令
+# │  │  │  │  │    └─ 执行命令的用户
+# │  │  │  │  └─ 星期几 (0-6, 0=周日)
+# │  │  │  └─ 月份 (1-12)
+# │  │  └─ 日期 (1-31)
+# │  └─ 小时 (0-23)
+# └─ 分钟 (0-59)
+
+# 在多个时间点执行
+0 8,12,18 * * * command    # 每天8点、12点、18点执行
+0 0 1,15 * * command       # 每月1号和15号执行
+# 连续时间段
+0 9-18 * * * command       # 每天9点到18点，每小时执行
+0 0 1-5 * * command        # 每月1号到5号，每天执行
+# 固定间隔执行
+*/5 * * * * command        # 每5分钟执行一次
+0 */3 * * * command        # 每3小时执行一次（0点、3点、6点...）
+0 0 */2 * * command        # 每2天执行一次（1号、3号、5号...）
+# 工作日的上班时间
+0 9-17 * * 1-5 command     # 周一到周五，9点到17点每小时执行
+# 周末的特殊任务
+0 10 * * 6,7 command       # 周六和周日的10点执行
+
+系统级别的 cron 任务通常位于 /etc/crontab 文件或 /etc/cron.d 目录下的文件中
+/etc/cron.deny      # 黑名单：列出不允许使用crontab的用户
+/etc/cron.allow     # 白名单：只允许列表中的用户使用crontab
+                    # 注意：如果cron.allow存在，则只有列表中的用户可以使用
+#  为其他用户管理cron（需要root权限）
+crontab -u username -e    # 编辑指定用户的任务
+crontab -u username -l    # 查看指定用户的任务
+crontab -u username -r    # 删除指定用户的任务
+
+#  从文件导入cron任务
+crontab mycron.txt        # 将文件内容作为cron任务
+
+# %在cron中有特殊含义，需要转义
+* * * * * date +\%Y-\%m-\%d > /tmp/date.txt
+# 在0-59之间随机延迟
+$(($RANDOM % 60)) * * * * /path/to/script.sh
+
+# 或在脚本中sleep随机时间
+sleep $((RANDOM \% 300))  # 随机休眠0-5分钟
+
+条件执行
+# 只在条件满足时执行
+0 * * * * [ -f /tmp/flag.txt ] && /path/to/script.sh
+
+# 或者写复杂的判断脚本
+0 * * * * /path/to/conditional_script.sh
+
+@reboot     /path/to/script.sh   # 重启后执行一次
+@yearly     /path/to/script.sh   # 每年1月1日0点
+@monthly    /path/to/script.sh   # 每月1日0点
+@weekly     /path/to/script.sh   # 每周日0点
+@daily      /path/to/script.sh   # 每天0点
+@hourly     /path/to/script.sh   # 每小时0分
+
+# 看服务状态
+systemctl status cron      # Debian/Ubuntu
+systemctl status crond     # CentOS/RHEL
+# 重启服务
+systemctl restart cron
+
+# 系统crontab文件
+/etc/crontab
+# 系统cron目录
+/etc/cron.d/        # 自定义任务
+/etc/cron.hourly/   # 每小时执行
+/etc/cron.daily/    # 每天执行
+/etc/cron.weekly/   # 每周执行
+/etc/cron.monthly/  # 每月执行
+
+
+任务不要重叠执行
+如果任务跑的时间长，可能上一次还没跑完，下一次又开始了。
+用flock加锁：
+* * * * * flock -n /tmp/myjob.lock /path/to/script.sh
+-n表示非阻塞，拿不到锁就直接退出。
+
+随机延迟
+避免所有机器同时跑任务，压力集中：随机睡0-300秒再执行。
+0 2 * * * sleep $((RANDOM \% 300)) && /path/to/script.sh
+
+防止任务跑太久：0 2 * * * timeout 3600 /path/to/script.sh
+```
+
+```sh
+互斥锁（防止重复执行）
+# 在脚本开头添加锁检查
+LOCK_FILE="/tmp/myscript.lock"
+
+if [ -f "$LOCK_FILE" ]; then
+    echo "脚本正在运行，退出"
+    exit 1
+fi
+
+# 创建锁文件
+touch "$LOCK_FILE"
+
+# 执行任务
+# ...
+
+# 删除锁文件
+rm -f "$LOCK_FILE"
+```
+
+重要文件：
+- /etc/cron.allow / /etc/cron.deny：控制用户权限
+- /var/log/cron：查看执行日志
+- /var/spool/cron/：用户cron文件存储
 
 ### 挂载异常
 
@@ -237,9 +362,93 @@ PermitRootLogin no
 # 保存后，对ssh服务进行重启
 systemctl restart sshd
 ```
+
 - [记录一次服务器被挖矿经历...](https://mp.weixin.qq.com/s/wHiQ89M_T_1ApxQ0V3OEEg)
 
-## NAS
+### 仅允许局域网 SSH 登录
+
+关键：禁止公网 IP 登录
+
+sshd_config限制监听 / 访问（推荐）
+
+```sh
+sudo nano /etc/ssh/sshd_config
+```
+
+1）仅监听内网网卡（可选但很安全）
+
+假设你内网网卡 IP 是 192.168.1.100：
+
+ListenAddress 192.168.1.100
+2）仅允许指定网段登录（推荐）
+
+例如只允许 192.168.1.0/24：
+
+AllowUsers *@192.168.1.*
+
+或针对具体用户：
+
+AllowUsers alice@192.168.1.* bob@192.168.1.*
+
+重启 SSH：
+
+```bash
+sudo systemctl restart sshd
+# 或
+sudo systemctl restart ssh
+```
+
+✅ 效果：
+
+公网 IP 连接 SSH → 被拒绝
+
+局域网 IP 连接 SSH → 允许
+
+### SMB 服务仅允许局域网访问
+
+方法 1：Samba 配置限制（推荐）
+
+```sh
+sudo nano /etc/samba/smb.conf
+```
+
+```conf
+#在 [global]段添加：
+
+hosts allow = 192.168.1. 127.
+hosts deny = all
+```
+
+说明：192.168.1.表示 192.168.1.0/24 用于本地访问
+
+hosts deny = all作为兜底拒绝
+
+重启 Samba：
+
+```bash
+sudo systemctl restart smbd nmbd
+```
+
+✅ 效果：
+
+仅局域网可访问 SMB 共享
+
+公网 IP 访问 → 无响应或被拒绝
+
+方法 2：防火墙限制（补充手段）
+
+如果你用 ufw：
+
+```bash
+sudo ufw default deny incoming
+sudo ufw allow from 192.168.1.0/24 to any port 22
+sudo ufw allow from 192.168.1.0/24 to any port 139
+sudo ufw allow from 192.168.1.0/24 to any port 445
+sudo ufw enable
+#（端口 139/445 是 SMB）
+```
+
+## 管理面板
 
 ### [宝塔面板](https://www.bt.cn/)
 
@@ -313,6 +522,15 @@ openmediavault-kvm安装完毕后，服务里面会多出一个KVM的选项，�
 
 ### ip
 
+常用 IPv6 检测服务列表
+|服务地址|说明|有效性|
+|:---|---|---|
+|ifconfig.co|自动识别协议，返回纯文本 IP|√|
+|ip.sb|支持 IPv6，返回信息简洁|√|
+|api6.ipify.org|专门用于 IPv6 查询|√|
+|ipv6.icanhazip.com|仅返回 IPv6 地址|√|
+|6.ipw.cn|返回ipv6地址，其他test.ipw.cn；4.ipw.cn|×|
+
 ```sh
 # email
 curl -S 6.ipw.cn | s-nail -s data msgsvr@163.com
@@ -343,6 +561,7 @@ set smtp-auth=login
 - 浏览器访问<http://b.oray.com> ，输入花生壳Linux 5.0在安装时产生SN码与默认登录密码admin登录。
 
 ### [WireGuard](https://github.com/WireGuard)
+
 一个开源的VPN软件，如果你不想将OMV服务映射到公网，这是一个必不可少的软件，可以通过这个软件连接到你的内网
 
 WireGuard 的安装条件非常苛刻，对内核版本要求极高，不仅如此，在不同的系统中，内核，内核源码包，内核头文件必须存在且这三者版本要一致，Red Hat、CentOS、Fedora 等系统的内核，内核源码包，内核头文件包名分别为 kernel、kernel-devel、kernel-headers；Debian、Ubuntu 等系统的内核，内核源码包，内核头文件包名分别为 kernel、linux-headers。果这三者任一条件不满足的话，则不管是从代码编译安装还是从 repository 直接安装，也只是安装了 wireguard-tools 而已。而 WireGuard 真正工作的部分，是 wireguard-dkms，也就是动态内核模块支持(DKMS)，是它将 WireGuard 编译到系统内核中。
@@ -390,8 +609,6 @@ WireGuard 不能做的事：
 全互联模式其实就是一种网络连接形式，即所有结点之间都直接连接，不会通过第三方节点中转流量。和前面提到的点对多点架构其实是一个意思。
 
 在 WireGuard 的世界里没有 Server 和 Client 之分，所有的节点都是 Peer。大家使用 WireGuard 的常规做法是找一个节点作为中转节点，也就是 VPN 网关，然后所有的节点都和这个网关进行连接，所有节点之间都通过这个网关来进行通信。这种架构中，为了方便理解，我们可以把网关看成 Server，其他的节点看成 Client，但实际上是不区分 Server 和 Client 的。
-
-#### [more](https://yaoqs.github.io/)
 
 Reference:
 
@@ -446,6 +663,7 @@ Node 还有两个比较重要的功能，就是将自身设置为 Ingress Gatewa
 因为一般家庭或企业用户所获得的的广域网ip并非固定，而是会时常变化，一旦变化，我们的域名针对ip的A类解析记录就会失效，因此我们需要DDNS(动态域名解析服务)，在ip变动时自动更改我们的域名解析记录值。
 
 ddns-go项目地址：
+
 - GitHub地址：<https://github.com/jeessy2/ddns-go>
 - Gitee地址：<https://gitee.com/OtherCopy/ddns-go>
 
@@ -455,7 +673,9 @@ ddns-go项目地址：
 
 ## docker
 
-### [Docker基础入门：镜像、容器导入导出与私有仓库搭建](https://blog.csdn.net/qq_41840843/article/details/132331501)
+### Docker基础入门
+
+[Docker基础入门：镜像、容器导入导出与私有仓库搭建](https://blog.csdn.net/qq_41840843/article/details/132331501)
 
 ### 安装
 
@@ -483,7 +703,9 @@ $ sudo docker run hello-world
 
 1）添加或修改文件daemon.json
 
+```sh
 nano /etc/docker/daemon.json
+```
 
 2）在daemon.json中添加国内镜像源
 
@@ -523,14 +745,15 @@ nano /etc/docker/daemon.json
 3）重启服务
 
 ```sh
-[root@localhost]# systemctl daemon-reload
-[root@localhost]# systemctl restart docker
+systemctl daemon-reload
+systemctl restart docker
 #或者输入：
 systemctl restart docker.service
 ```
 
 ### Portainer 安装与使用
-https://zhuanlan.zhihu.com/p/383491674
+
+<https://zhuanlan.zhihu.com/p/383491674>
 
 Portainer 是一个用于管理容器化应用程序的开源工具。它在数据中心和边缘与Kubernetes、Docker、Docker Swarm、Azure ACI一起使用。Portainer 消除了与编排器相关的复杂性，因此任何人都可以管理容器。它可用于部署和管理应用程序、观察容器的行为并提供广泛部署容器所需的安全性和治理。Portainer CE（开源）受到全球超过 500,000 名用户的信赖。Portainer Business建立在开源基础之上，使组织能够大规模运行容器化应用程序，而无需雇用新人员或重新培训现有团队。
 
@@ -552,17 +775,19 @@ cd ./portainer
 1.2 pull 官方容器镜像
 
 ```sh
-// 拉取镜像
+# 拉取镜像
 docker pull portainer/portainer
 
-// 检查是否更新成功（成功如下图）
-
+# 检查是否更新成功（成功如下图）
 docker images | grep portainer
-
 ```
 
 1.3 创建docker-compose.yml 配置如下：
+
+```sh
 touch docker-compose.yml
+```
+
 docker-compose.yml 配置文件
 
 ```yaml
@@ -597,10 +822,10 @@ networks:
 1.4 启动服务
 
 ```sh
-// 本机测试绑定 hosts
+# 本机测试绑定 hosts
 127.0.0.1 portainer.cn
 
-//启动成功如下图
+#启动成功如下图
 docker-compose down && docker-compose up -d
 ```
 
@@ -694,21 +919,21 @@ server {
      listen 443 ssl;
      server_name  test.websoft9.top;
 
- ssl_certificate /etc/nginx/cert/cert-1540972394298_test.websoft9.top.crt;
- ssl_certificate_key /etc/nginx/cert/cert-1540972394298_test.websoft9.top.key;
+  ssl_certificate /etc/nginx/cert/cert-1540972394298_test.websoft9.top.crt;
+  ssl_certificate_key /etc/nginx/cert/cert-1540972394298_test.websoft9.top.key;
 
- if ($scheme != "https") {
- return 301 https://$host$request_uri;
- }
+  if ($scheme != "https") {
+  return 301 https://$host$request_uri;
+  }
 
- location / {
- proxy_pass http://portainer;
- proxy_set_header Host $host;
- proxy_set_header X-Real-IP $remote_addr;
- proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
- proxy_set_header Via "nginx";
- }
- }
+  location / {
+  proxy_pass http://portainer;
+  proxy_set_header Host $host;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header Via "nginx";
+  }
+}
 ```
 
 - Portainer 备份
@@ -863,16 +1088,16 @@ Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器�
 ```
 
 - 常用&重要命令
-  - config验证 Compose 文件格式是否正确，若正确则显示配置，若格式错误显示错误原因。如：docker-compose -f skywalking.yml config此命令不会执行真正的操作，而是显示 docker-compose 程序解析到的配置文件内容
-  - images列出 Compose 文件中包含的镜像。如docker-compose -f skywalking.yml images
-  - ps列出项目中目前的所有容器。如docker-compose -f skywalking.yml ps
-  - build构建（重新构建）项目中的服务容器。如：docker-compose -f skywalking.yml build，一般搭配自定义镜像，比如编写的Dockfile，功能类似于docker build .
-  - up该命令十分强大（重点掌握），它将尝试自动完成包括构建镜像，（重新）创建服务，启动服务，并关联服务相关容器的一系列操作。如docker-compose -f skywalking.yml up。默认情况，docker-compose up 启动的容器都在前台，控制台将会同时打印所有容器的输出信息，可以很方便进行调试。如果使用docker-compose up -d将会在后台启动并运行所有的容器。一般推荐生产环境下使用该选项。默认情况，如果服务容器已经存在，docker-compose up 将会尝试停止容器，然后重新创建（保持使用 volumes-from 挂载的卷），以保证新启动的服务匹配 docker-compose.yml 文件的最新内容。如果用户不希望容器被停止并重新创建，可以使用 docker-compose up --no-recreate。这样将只会启动处于停止状态的容器，而忽略已经运行的服务。如果用户只想重新部署某个服务，可以使用 docker-compose up --no-deps -d <SERVICE_NAME> 来重新创建服务并后台停止旧服务，启动新服务，并不会影响到其所依赖的服务。此命令有如下选项：①：-d 在后台运行服务容器。②：--no-color 不使用颜色来区分不同的服务的控制台输出。③：--no-deps 不启动服务所链接的容器。④：--force-recreate 强制重新创建容器，不能与 --no-recreate 同时使用。⑤：--no-recreate 如果容器已经存在了，则不重新创建，不能与 --force-recreate 同时使用。⑥：--no-build 不自动构建缺失的服务镜像。⑦：-t, --timeout TIMEOUT 停止容器时候的超时（默认为 10 秒）。
-  - down此命令停止用up命令所启动的容器并移除网络，如docker-compose -f skywalking.yml down
-  - stop格式为 docker-compose stop [options] [SERVICE...]停止已经处于运行状态的容器，但不删除它。通过 docker-compose start 可以再次启动这些容器，如果不指定service则默认停止所有的容器。如docker-compose -f skywalking.yml stop elasticsearch选项：-t, --timeout TIMEOUT 停止容器时候的超时（默认为 10 秒）。
-  - start启动已经存在的服务容器。用法跟上面的stop刚好相反,如docker-compose -f skywalking.yml start elasticsearch
+  - config验证 Compose 文件格式是否正确，若正确则显示配置，若格式错误显示错误原因。如：```docker-compose -f skywalking.yml config```此命令不会执行真正的操作，而是显示 docker-compose 程序解析到的配置文件内容
+  - images列出 Compose 文件中包含的镜像。如```docker-compose -f skywalking.yml images```
+  - ps列出项目中目前的所有容器。如```docker-compose -f skywalking.yml ps```
+  - build构建（重新构建）项目中的服务容器。如：```docker-compose -f skywalking.yml build```，一般搭配自定义镜像，比如编写的Dockfile，功能类似于```docker build .```
+  - up该命令十分强大（重点掌握），它将尝试自动完成包括构建镜像，（重新）创建服务，启动服务，并关联服务相关容器的一系列操作。如```docker-compose -f skywalking.yml up```。默认情况，docker-compose up 启动的容器都在前台，控制台将会同时打印所有容器的输出信息，可以很方便进行调试。如果使用```docker-compose up -d```将会在后台启动并运行所有的容器。一般推荐生产环境下使用该选项。默认情况，如果服务容器已经存在，```docker-compose up``` 将会尝试停止容器，然后重新创建（保持使用 volumes-from 挂载的卷），以保证新启动的服务匹配 docker-compose.yml 文件的最新内容。如果用户不希望容器被停止并重新创建，可以使用 ```docker-compose up --no-recreate```。这样将只会启动处于停止状态的容器，而忽略已经运行的服务。如果用户只想重新部署某个服务，可以使用 ```docker-compose up --no-deps -d <SERVICE_NAME>``` 来重新创建服务并后台停止旧服务，启动新服务，并不会影响到其所依赖的服务。此命令有如下选项：①：-d 在后台运行服务容器。②：--no-color 不使用颜色来区分不同的服务的控制台输出。③：--no-deps 不启动服务所链接的容器。④：--force-recreate 强制重新创建容器，不能与 --no-recreate 同时使用。⑤：--no-recreate 如果容器已经存在了，则不重新创建，不能与 --force-recreate 同时使用。⑥：--no-build 不自动构建缺失的服务镜像。⑦：-t, --timeout TIMEOUT 停止容器时候的超时（默认为 10 秒）。
+  - down此命令停止用up命令所启动的容器并移除网络，如```docker-compose -f skywalking.yml down```
+  - stop格式为 ```docker-compose stop [options] [SERVICE...]```停止已经处于运行状态的容器，但不删除它。通过 ```docker-compose start``` 可以再次启动这些容器，如果不指定service则默认停止所有的容器。如```docker-compose -f skywalking.yml stop elasticsearch```选项：-t, --timeout TIMEOUT 停止容器时候的超时（默认为 10 秒）。
+  - start启动已经存在的服务容器。用法跟上面的stop刚好相反,如```docker-compose -f skywalking.yml start elasticsearch```
   - restart重启项目中的服务。用法跟上面的stop,start一样
-  - logs格式为docker-compose logs [options] [SERVICE...]查看服务容器的输出。默认情况下，docker-compose 将对不同的服务输出使用不同的颜色来区分。可以通过 --no-color 来关闭颜色。该命令在调试问题的时候十分有用。如docker-compose -f skywalking.yml logs 查看整体的日志，docker-compose -f skywalking.yml logs elasticsearch 查看单独容器的日志
+  - logs格式为```docker-compose logs [options] [SERVICE...]```查看服务容器的输出。默认情况下，docker-compose 将对不同的服务输出使用不同的颜色来区分。可以通过 --no-color 来关闭颜色。该命令在调试问题的时候十分有用。如```docker-compose -f skywalking.yml logs``` 查看整体的日志，```docker-compose -f skywalking.yml logs elasticsearch``` 查看单独容器的日志
 
 - docker compose 模板文件
 模板文件是使用 Compose 的核心，涉及到的指令关键字也比较多。默认的模板文件名称为 docker-compose.yml，格式为 YAML 格式。
@@ -880,14 +1105,14 @@ Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器�
 注意每个服务都必须通过 image 指令指定镜像或 build 指令（需要 Dockerfile）等来自动构建生成镜像。如果使用 build 指令，在 Dockerfile 中设置的选项(例如：CMD, EXPOSE, VOLUME, ENV 等) 将会自动被获取，无需在 docker-compose.yml 中重复设置。
 
 ```yaml
-images指定为镜像名称或镜像 ID。如果镜像在本地不存在，Compose 将会尝试拉取这个镜像。
+#images指定为镜像名称或镜像 ID。如果镜像在本地不存在，Compose 将会尝试拉取这个镜像。
 image: apache/skywalking-oap-server:6.5.0
 image: apache/skywalking-ui:6.5.0
-ports暴露端口信息。使用宿主端口：容器端口 (HOST:CONTAINER) 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以，端口字符串都使用引号包括起来的字符串格式。
+#ports暴露端口信息。使用宿主端口：容器端口 (HOST:CONTAINER) 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以，端口字符串都使用引号包括起来的字符串格式。
 ports:
     - "3000"
     - "8080:8080"- "127.0.0.1:8001:8001"
-volumes数据卷所挂载路径设置。可以设置为宿主机路径(HOST:CONTAINER)或者数据卷名称(VOLUME:CONTAINER)，并且可以设置访问模式 （HOST:CONTAINER:ro）。
+#volumes数据卷所挂载路径设置。可以设置为宿主机路径(HOST:CONTAINER)或者数据卷名称(VOLUME:CONTAINER)，并且可以设置访问模式 （HOST:CONTAINER:ro）。
 volumes:
       - /app/skywalking/elasticsearch/data:/usr/share/elasticsearch/data:rw
       - conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
@@ -899,13 +1124,13 @@ services:
       - mysql_data:/var/lib/mysql
 volumes:
   mysql_data:
-ulimits指定容器的 ulimits 限制值。例如，指定最大进程数为 65535，指定文件句柄数为 20000（软限制，应用可以随时修改，不能超过硬限制） 和 40000（系统硬限制，只能 root 用户提高）。
+#ulimits指定容器的 ulimits 限制值。例如，指定最大进程数为 65535，指定文件句柄数为 20000（软限制，应用可以随时修改，不能超过硬限制） 和 40000（系统硬限制，只能 root 用户提高）。
 ulimits:
    nproc: 65535
    nofile:
      soft: 20000
      hard: 40000
-depends_on解决容器的依赖、启动先后的问题。以下例子中会先启动 redis mysql 再启动 web
+#depends_on解决容器的依赖、启动先后的问题。以下例子中会先启动 redis mysql 再启动 web
 version: '3'
 services:
   web:
@@ -917,7 +1142,7 @@ services:
     image: redis
   db:
     image: mysql
-environment设置环境变量。你可以使用数组或字典两种格式。
+#environment设置环境变量。你可以使用数组或字典两种格式。
 environment:
       SW_STORAGE: elasticsearch
       SW_STORAGE_ES_CLUSTER_NODES: elasticsearch:9200
@@ -925,7 +1150,7 @@ environment:
 environment:
       - SW_STORAGE= elasticsearch
       - SW_STORAGE_ES_CLUSTER_NODES=elasticsearch:9200
-restart指定容器退出后的重启策略为始终重启。该命令对保持服务始终运行十分有效，在生产环境中推荐配置为 always 或者 unless-stopped。
+#restart指定容器退出后的重启策略为始终重启。该命令对保持服务始终运行十分有效，在生产环境中推荐配置为 always 或者 unless-stopped。
 restart: always
 ```
 
@@ -1001,13 +1226,103 @@ docker run -ti [username]/copyserver /bin/bash
 
 ### ntfs
 
+```sh
+sudo apt install ntfs-3g
+
+sudo fdisk -l
+# 或使用更直观的命令
+lsblk -f
+# 创建一个空目录作为“访问入口”：
+sudo mkdir /mnt/ntfs
+# 执行挂载命令，建议添加权限和编码选项，避免中文乱码及无法写入：
+sudo mount -t ntfs-3g -o uid=1000,gid=1000,umask=000,locale=zh_CN.UTF-8 /dev/sdb1 /mnt/ntfs
+#uid=1000,gid=1000：将磁盘所有权赋予当前用户（通常 1000 是第一个创建的用户）。
+#umask=000：设置最大权限（所有用户可读写）。
+#locale=zh_CN.UTF-8：解决中文文件名乱码问题。
+#挂载成功后，通过 df -h确认，或直接访问 /mnt/ntfs
+#若需每次启动自动挂载，编辑 /etc/fstab文件：
+sudo nano /etc/fstab
+#强烈建议使用 UUID 而非设备名（防止设备号变动导致启动失败）。获取 UUID：sudo blkid /dev/sdb1。添加如下行：
+# 使用 UUID 示例
+UUID=你的-UUID /mnt/ntfs ntfs-3g defaults,auto,users,rw,nofail,uid=1000,gid=1000,umask=000 0 0
+#关键选项：nofail表示即使硬盘不存在也不影响系统启动。
+#编辑后，执行 sudo mount -a测试配置是否正确，若无报错则重启生效。
+#操作完成后，务必安全卸载：
+sudo umount /mnt/ntfs
+#提示只读（Read-only）：可能是硬盘存在错误（如 Windows 快速启动导致的休眠），建议在 Windows 中彻底关机，或使用 #ntfsfix尝试修复（注意：修复有风险，先备份）。
+#中文乱码：确认挂载命令中已添加 locale=zh_CN.UTF-8选项。
+#权限不足：检查挂载参数中的 uid和 gid是否与你的用户 ID 匹配（通过 id命令查看）
+
+# 查看硬盘类型和APM级别（适用于HDD）
+sudo hdparm -B /dev/sdX
+# 查看当前是否处于休眠状态
+sudo hdparm -C /dev/sdX
+#结果解读：-B的值通常为 1-255。128是许多硬盘的默认平衡值，255表示禁用休眠（最大性能），1-127表示不同程度的节能（数值越低休眠越激进）。
+```
+
+- 方法1：使用 hdparm（最通用，针对 HDD）
+
+```sh
+sudo nano /etc/hdparm.conf
+```
+
+```conf
+/dev/sdX {
+    apm = 64
+    spindown_time = 60
+}
+```
+
+重启系统或重新加载 hdparm服务使配置生效
+
+- 方法2：使用 sdparm（针对现代 SCSI/SATA 硬盘）
+
+```sh
+# 安装
+sudo apt install sdparm
+
+# 查看电源状态
+sudo sdparm -p -l /dev/sdX
+
+# 设置空闲进入待命状态
+sudo sdparm --set STANDBY=1 /dev/sdX
+```
+
+- 方法3：SSD 固态硬盘的特殊处理
+
+SSD 不需要也不应该设置机械硬盘式的“休眠”。SSD 没有机械部件，所谓的“休眠”在 SSD 上主要是让主控进入低功耗状态，通常系统默认的电源管理已经足够。
+
+对于 SSD，建议关注 fstrim（手动或自动）来清理垃圾块，维持长期性能，而非纠结于休眠时间。
+
+实时监控：使用 iotop或 iostat查看磁盘活动，确认休眠是否被意外唤醒。
+
+查看日志：使用 ```sudo dmesg | grep -i sdX```查看内核日志，确认是否有休眠相关的错误或超时信息
+
+外部/USB 硬盘：hdparm可能无法直接管理 USB 桥接的硬盘。对于 USB 设备，通常需要在挂载时通过 udisksctl或驱动特定参数设置。
+
+开启电源管理并设置空闲时间
+
+你需要修改控制器的电源条件模式页（Power Condition mode page），启用 standby 计时器。
+
 ### SMB
+
+```sh
+sudo apt update
+sudo apt install samba
+
+sudo nano /etc/samba/smb.conf
+
+sudo systemctl restart smbd
+sudo systemctl enable smbd
+```
 
 ### NFS
 
 ### FTP/SFTP/TFTP
 
-### filebrowser：使用Golang开发的文件管理器，支持WEB管理文件和文件分享
+### filebrowser
+
+使用Golang开发的文件管理器，支持WEB管理文件和文件分享
 
 - openmediavault-filebrowser
 
@@ -1143,9 +1458,14 @@ server {
 - <https://github.com/alist-org/alist>
 - <https://github.com/Xmarmalade/alisthelper>
 
-#### [AList 白嫖网盘空间神器 - 免费开源挂载百度/阿里/OneDrive等云盘到本地工具](https://www.iplaysoft.com/alist.html)
+- [AList 白嫖网盘空间神器 - 免费开源挂载百度/阿里/OneDrive等云盘到本地工具](https://www.iplaysoft.com/alist.html)
 
 AList 是一款免费开源支持多存储的自建网盘程序 (文件列表程序)，可以轻松在 VPS 服务器、NAS、普通电脑 Win、Mac、Linux 上部署。它除了能作为一款自建网盘 (将文件保存在设备硬盘上) 外，最大的特色就是支持「挂载各大主流网盘」，免费将它们的空间“据为己用”！AList 提供了网页版界面能让你集中管理各大网盘的文件，支持文件上传下载、文件管理、预览图片、查看文档、在线播放音乐、视频等等。AList 网页版可以支持 PC 以及手机浏览器。而更加有用的是，AList 还支持对外提供 WebDAV 服务！也就是能将网盘转换成 WebDAV 协议，这样我们就可以用各种各样的软件来访问它们了 (比如使用播放器直接播放网盘里的视频)。通过 WebDAV 协议，你还能使用 nPlayer、Infuse、Fileball、Kodi、MX Player、KMPlayer、NOVA、VLC、PotPlayer 等播放器直接连接播放了！而且如果借助「RaiDrive」等工具，还能把 Alist 的 WebDAV 服务直接挂载变成一个虚拟的本地“硬盘”来使用 (如上图)，可以用于备份、传照片、保存文档、播放原画质视频等等，用途更加广泛。
+
+```sh
+sudo curl -fsSL "https://alist.nn.ci/v3.sh" -o v3.sh
+sudo bash v3.sh
+```
 
 ```sh
 ./alist storage list
@@ -1230,18 +1550,19 @@ docker exec -it alist ./alist admin set 你的密码
 ```
 
 待 Alist 服务成功启动之后，我们就能通过浏览器访问它了：
-```
-本机访问：<http://127.0.0.1:5244>
-局域网访问：<http://局域网IP:5244>
-公网访问：<http://服务器公网IP:5244> (如部署在云服务器上可直接互联网访问)，如果是家庭宽带无公网 IP 的，那么需要额外配置「内网穿透」才可以实现。
+
+- 本机访问：<http://127.0.0.1:5244>
+- 局域网访问：<http://局域网IP:5244>
+- 公网访问：<http://服务器公网IP:5244> (如部署在云服务器上可直接互联网访问)，如果是家庭宽带无公网 IP 的，那么需要额外配置「内网穿透」才可以实现。
 将网盘空间挂载到本地 (建立 WebDAV)
-```
+
 Alist 作为一个网盘文件管理器，它后端支持挂载的存储服务非常非常多！包括但不限于本地硬盘存储、SMB 共享、FTP / SFTP、WebDAV、各大云服务的对象存储等，同时还可以支持各种网盘：百度网盘、阿里云盘、OneDrive (SharePoint)、迅雷云盘、天翼云盘、移动云盘、腾讯微云、PikPak、夸克网盘、Dropbox、Seafile 等等，非常丰富。
 
 在 Alist 的管理界面中的「存储」页面，我们可以随意添加它所支持的网盘。具体每一个网盘的添方法都有所区别，比如需要扫码登录账号获取 token 或 cookie 等，具体就需要大家「参考官网的文档」来使用了
 
 AList 的 WebDAV 服务：
 AList 运行后就会开启 WebDAV 服务，供其他程序连接，下面是其连接信息，大家可以参考：
+
 ```
 URL <http://主机IP地址:端口号/dav/>
 路径 /dav
@@ -1250,24 +1571,25 @@ URL <http://主机IP地址:端口号/dav/>
 WebDAV用户名 与网页端用户名一致
 WebDAV密码 与网页端密码一致
 ```
+
 将AList 变成本地硬盘盘符
 比如有了这些信息，你就可以使用 RaiDrive 将 Alist 的 WebDAV 挂载成本地硬盘了。
 
 AList 功能特性：
-```
-部署方便，开箱即用；黑暗模式、国际化多语言支持
-文件预览（PDF、markdown、代码、纯文本等...）；支持 README.md 预览渲染
-画廊模式下的图像预览
-视频和音频预览，支持歌词和字幕
-Office 文档预览（docx、pptx、xlsx、...）
-文件永久链接复制和直接文件下载
-支持密码保护和身份验证
-提供 WebDav 服务
-Docker 部署、Cloudflare workers 中转
-文件/文件夹打包下载
-网页上传(可以允许访客上传)，删除，新建文件夹，重命名，移动，复制
-离线下载；跨存储复制文件；单线程下载/串流的多线程下载加速
-```
+
+- 部署方便，开箱即用；黑暗模式、国际化多语言支持
+- 文件预览（PDF、markdown、代码、纯文本等...）；支持 README.md 预览渲染
+- 画廊模式下的图像预览
+- 视频和音频预览，支持歌词和字幕
+- Office 文档预览（docx、pptx、xlsx、...）
+- 文件永久链接复制和直接文件下载
+- 支持密码保护和身份验证
+- 提供 WebDav 服务
+- Docker 部署、Cloudflare workers 中转
+- 文件/文件夹打包下载
+- 网页上传(可以允许访客上传)，删除，新建文件夹，重命名，移动，复制
+- 离线下载；跨存储复制文件；单线程下载/串流的多线程下载加速
+
 AList 不仅是一款开源实用的自建网盘程序，通过它你还可以自由添加任意多的网盘作为背后存储，从而实现“多网盘聚合管理”！同时还能将网盘空间转换成 WebDAV 服务“据为己用”。
 
 无论是作为网络影视资源库，或是文档备份的空间，它都能让你更好地利用网盘的容量，节省本地磁盘空间。从而也能省下一大笔购买 NAS 、硬盘的开支。不得不说，AList 绝对是一个非常实用的开源项目，如果你有一点动手能力，绝对值得部署一个。
@@ -1312,6 +1634,25 @@ services:
 ## 远程下载
 
 ### xunlei
+
+#### 命令行/远程下载（无图形界面）
+
+适合服务器或 NAS 环境，通过命令行管理。
+
+Xware：迅雷的旧版远程下载核心,路由固件。解压后运行 portal获取激活码，在迅雷远程页面（yuancheng.xunlei.com）绑定后即可添加任务。
+
+状态：该方案年久失修，在新版内核或高版本 glibc 环境下极易出现段错误（Segmentation Fault），仅建议在旧系统或特定设备上使用。
+
+##### 安装使用迅雷Xware
+
+- 下载Xware1.0.31_armel_v5te_glibc,可以去官网下载
+- 将Xware1.0.31_armel_v5te_glibc在本地解压得到文件:EmbedThunderManager,ETMDaemon,portal,vod_httpserver
+- 为这些文件增加执行权限,并执行./portal ```chmod +x ./*```
+- 获取激活码绑定远程下载:浏览器访问树莓派局域网ip:9000/getsysinfo,其中bind_acktive_key就是激活码.进入远程下载管理页面(左上角)添加激活码:http://yuancheng.xunlei.com/#  [需要登录你的迅雷账号,没有的话申请一个就可以了]
+- 修改etm.cfg下的下载目录
+system.default_dl_path=/mnt/usb
+重启xware
+访问http://ip:9000/getusedpartitioninfo 查看挂载情况[ 0, [ "C", "\/media\/ESD-USB" ] ],可以看到挂载为u盘了
 
 #### [在Docker环境中实现NAS版迅雷安装指南](https://blog.xiaoz.org/archives/19632)
 
@@ -1368,13 +1709,139 @@ ufw allow 2345
 - 下载脚本
 
 ```sh
+sudo apt install aria2
+# or
 wget -N https://github.com/P3TERX/aria2.sh && chmod +x aria2.sh
+./aria2.sh
 ```
 
 - 运行脚本
 
 ```sh
-./aria2.sh
+# 1. 下载单个文件（最常用）
+aria2c http://example.com/file.zip
+
+# 2. 断点续传（-c 参数，网络不稳时必备）
+aria2c -c http://example.com/largefile.iso
+
+# 3. 多线程加速（-s 指定连接数，-x 指定线程数）
+aria2c -s 10 -x 10 http://example.com/bigfile.tar.gz
+
+# 4. 下载磁力链接或种子
+aria2c 'magnet:?xt=urn:btih:...'
+
+
+nano ~/aria2/aria2.conf
+```
+
+```conf
+## 基础设置 ##
+# 启用后台守护进程模式
+daemon=true
+# 下载保存目录（请替换为你的实际路径，如 /home/你的用户名/Downloads）
+dir=/home/你的用户名/Downloads/aria2_downloads
+# 启用断点续传
+continue=true
+# 最大并发下载数
+max-concurrent-downloads=5
+
+## RPC 远程控制设置（核心） ##
+# 启用 RPC
+enable-rpc=true
+# 监听所有网络接口（允许网页连接）
+rpc-listen-all=true
+# RPC 监听端口（默认 6800）
+rpc-listen-port=6800
+# 允许所有来源跨域（AriaNG 必须）
+rpc-allow-origin-all=true
+# RPC 密钥（重要！请设置一个复杂密码，连接 AriaNG 时需要）
+rpc-secret=Your_Secret_Token_123
+
+## 会话和日志 ##
+# 会话保存文件（记录未完成的任务）
+save-session=~/.config/aria2/aria2.session
+# 定时保存会话（秒）
+save-session-interval=60
+# 日志文件（可选，排查问题时有用）
+# log=~/.config/aria2/aria2.log
+# log-level=warn
+```
+
+```sh
+# 创建服务文件（需 root 权限）
+sudo nano /etc/systemd/system/aria2.service
+```
+
+```conf
+[Unit]
+Description=Aria2 RPC Daemon
+After=network.target
+
+[Service]
+Type=forking
+# 请将 User 替换为你的实际用户名
+User=你的用户名
+ExecStart=/usr/bin/aria2c --conf-path=/home/你的用户名/.config/aria2/aria2.conf
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```sh
+# 重载 systemd 配置
+sudo systemctl daemon-reload
+# 设置开机自启
+sudo systemctl enable aria2.service
+# 立即启动服务
+sudo systemctl start aria2.service
+# 检查状态，看到 active (running) 即为成功
+sudo systemctl status aria2.service
+```
+
+#### 挂载 SMB 共享为本地目录
+
+在宿主机上执行命令，将远程 SMB 路径映射到本地（例如 /mnt/nas_download）
+
+```sh
+# 创建挂载点
+sudo mkdir -p /mnt/nas_download
+
+# 挂载 SMB（请替换为你的实际参数）
+sudo mount -t cifs //192.168.1.100/Downloads /mnt/nas_download -o username=yourname,password=yourpass,vers=2.0,uid=1000,gid=1000,file_mode=0777,dir_mode=0777
+
+#关键参数：vers=2.0是兼容性关键，如果报错可尝试改为 vers=1.0或 vers=3.0。
+#//192.168.1.100/share_path：你的 SMB 服务器地址和共享名。
+#uid/gid：设置为运行 Aria2 的用户 ID，确保有写权限。
+#file_mode/dir_mode：设置文件权限，避免下载后无法读写
+```
+
+```conf
+#开机自动挂载：编辑 /etc/fstab添加一行，确保重启后依然有效：
+//192.168.1.100/Downloads /mnt/nas_download cifs username=yourname,password=yourpass,vers=2.0,uid=1000,gid=1000,file_mode=0777,dir_mode=0777 0 0
+#编辑 Aria2 的配置文件（通常是 aria2.conf），将下载目录指向挂载点
+# 修改下载目录
+dir=/mnt/nas_download
+
+# 如果使用了自动移动完成文件脚本，也需对应修改
+# on-download-complete=/path/to/your/script.sh
+```
+
+```sh
+systemctl restart aria2
+
+
+# 1. 创建目录
+sudo mkdir -p /opt/alist/data/temp/aria2
+
+# 2. 设置权限（假设你的当前用户是 alist）
+sudo chown -R alist:alist /opt/alist/data/temp
+# 或者给所有人写权限（测试用）
+sudo chmod 777 -R /opt/alist/data/temp
+
+# 3. 验证
+ls -la /opt/alist/data/temp/
 ```
 
 - <https://ariang.js.org/>
@@ -1382,6 +1849,10 @@ wget -N https://github.com/P3TERX/aria2.sh && chmod +x aria2.sh
 ### transmission
 
 BT下载工具，用来保种不错，占用很低
+
+```sh
+sudo apt install transmission-daemon -y
+```
 
 - 403: Forbidden
 
@@ -1396,20 +1867,98 @@ sudo transmission-daemon -d
 [修改transmission配置，实现远程访问transmission](https://zhuanlan.zhihu.com/p/86949334)
 
 ```json
-"rpc-authentication-required": true,
-"rpc-bind-address": "0.0.0.0",
-"rpc-enabled": true,
-"rpc-host-whitelist": "",
-"rpc-host-whitelist-enabled": true,
-"rpc-password": "123456",
-"rpc-port": 9091,
-"rpc-url": "/transmission/",
-"rpc-username": "admin",
-"rpc-whitelist": "",
-"rpc-whitelist-enabled": false,
+{
+  "rpc-authentication-required": true,
+  "rpc-bind-address": "0.0.0.0",
+  "rpc-enabled": true,
+  "rpc-host-whitelist": "",
+  "rpc-host-whitelist-enabled": true,
+  "rpc-password": "123456",
+  "rpc-port": 9091,
+  "rpc-url": "/transmission/",
+  "rpc-username": "admin",
+  "rpc-whitelist": "127.0.0.1,192.168.*.*",  // 如果上面是 true，这里需包含 AList 所在 IP 网段
+  "rpc-whitelist-enabled": false,
+}
 ```
 
+- 401:Unauthorized
+
+```sh
+curl -I "http://transmission:123456@你的服务器IP:9091/transmission/rpc"
+```
+
+如果返回 HTTP/1.1 409 Conflict：说明账号密码完全正确，问题出在 AList 的配置页面上（大概率是密码框里有隐藏空格）。
+
+如果返回 401 Unauthorized：说明 Transmission 端配置未生效，请检查服务是否重启成功，或配置文件路径是否正确。
+
+- 409:Conflict
+
+Transmission URI: http://transmission:123456@你的服务器IP:9091/transmission/rpc
+
 - ip:9091
+
+#### 在 Transmission 服务器挂载 SMB
+
+```sh
+# 1. 创建本地挂载点
+sudo mkdir -p /mnt/nas_download
+
+# 2. 安装 CIFS 工具（如未安装）
+sudo apt-get install cifs-utils
+
+# 3. 手动挂载（示例）
+sudo mount -t cifs //192.168.1.100/share /mnt/nas_download -o username=你的用户名,password=你的密码,uid=1000,gid=1000,file_mode=0777,dir_mode=0777
+
+# 4. 验证挂载
+df -h | grep nas_download
+```
+
+权限说明：uid和 gid需设置为运行 Transmission 服务的用户 ID（通常为 debian-transmission或你的用户名），否则 Transmission 会因权限不足无法写入。使用 id username命令查看具体 ID。
+
+开机自动挂载：编辑 /etc/fstab添加一行，确保重启后依然有效。
+
+```conf
+//192.168.1.100/Downloads /mnt/nas_download cifs username=yourname,password=yourpass,vers=2.0,uid=1000,gid=1000,file_mode=0777,dir_mode=0777 0 0
+```
+
+#### 配置 Transmission
+
+修改 Transmission 的配置文件 settings.json（通常位于 /var/lib/transmission-daemon/info/或 /etc/transmission-daemon/）
+
+```json
+{
+    "download-dir": "/mnt/nas_download/complete",  // 完成目录
+    "incomplete-dir": "/mnt/nas_download/incomplete", // 未完成目录（可选）
+    "incomplete-dir-enabled": true,
+    ... // 其他配置保持不变
+}
+```
+
+```sh
+# 1. 停止服务
+sudo systemctl stop transmission-daemon
+
+# 2. 编辑配置文件（推荐使用 nano 或 vim）
+sudo nano /var/lib/transmission-daemon/info/settings.json
+```
+
+```json
+{
+  # 3. 修改以下关键参数（将 false 改为 true，并设置密码）
+  "rpc-authentication-required": true,    # 开启认证
+  "rpc-username": "admin",                # 自定义用户名
+  "rpc-password": "your_password",        # 自定义密码（明文，启动后会自动加密）
+  "rpc-whitelist": "127.0.0.1,192.168.*.*",  // 如果上面是 true，这里需包含 AList 所在 IP 网段
+  "rpc-whitelist-enabled": false,         # 关闭IP白名单（方便外网访问）
+}
+```
+
+```sh
+# 4. 保存后启动服务
+sudo systemctl start transmission-daemon
+sudo systemctl enable transmission-daemon  # 设置开机自启
+```
 
 ### [qbitttorrent](https://github.com/qbittorrent/qBittorrent)
 
@@ -1548,6 +2097,28 @@ services:
       - /dev/dri:/dev/dri # Intel 集显驱动
     restart: unless-stopped
 ```
+
+### VidHub
+
+[VidHub](https://zh.okaapps.com/product/1659622164) 是一款主打“聚合播放”的跨平台媒体播放器。它的核心卖点不是简单的本地播放，而是能把你的网盘、NAS、本地文件统统整合到一个界面里，生成类似 Netflix 的海报墙，实现一站式观影。
+
+- 核心能力：你的私人影院中枢
+它最大的价值在于打通了资源孤岛，你不再需要为了看不同地方的视频而切换多个 App：
+
+|功能维度|具体支持|
+|:---:|:---:|
+|资源聚合​|网盘直连：阿里云盘、百度网盘、115、移动/天翼云盘等（无需下载，直接在线播放）。<br>NAS/服务器：支持 SMB、WebDAV 协议，可直连 Emby、Jellyfin、Plex 媒体服务器。<br>本地文件：手机、电脑、电视本地存储。|
+|观影体验​|海报墙：自动从 TMDB 刮削影片信息，将杂乱文件名变成精美的海报墙，支持剧集分季。<br>高清解码：支持 4K、HDR、杜比视界及蓝光原盘播放，兼容 MKV、MP4 等主流格式。<br>字幕音轨：支持外挂字幕（SRT/ASS）、音轨切换、倍速播放、投屏（DLNA/AirPlay）。|
+|跨端同步​|支持 iOS、Android（含TV）、macOS、Windows。通过 iCloud 或账号同步观看进度和收藏。|
+
+- 适用人群与费用
+  - 如果你有这些需求，它很适合你：
+    - 网盘重度用户：不想下载几十G的文件，直接在线看阿里云盘/百度网盘里的高清电影。
+    - NAS 玩家：希望有一个比系统自带播放器更好用的客户端来管理 NAS 里的影库。
+    - 整理强迫症：受够了乱七八糟的文件夹，想要统一的海报墙界面。
+  - 费用模式：基础播放功能免费。海报墙、媒体库管理等高级功能通常需要订阅或买断（如终身会员），具体价格以官方最新为准。
+- 下载与使用建议
+下载渠道：App Store（iOS/iPadOS/Apple TV）、Google Play（Android/电视）、官网（Windows/macOS）。
 
 ## 同步
 
